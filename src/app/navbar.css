@@ -1,0 +1,16 @@
+.navbar {
+    width: 10%;
+    padding: 0.5%;
+    outline: 2px solid black;
+}
+
+.navbar li {
+    list-style-type: none;
+    color: black;
+    padding: 5%;
+    font-weight: bold;
+}
+
+.navbar li:hover {
+    background-color: orange;
+}
