@@ -22,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
          <SearchBar></SearchBar>
         {children}
+        <footer>©️ Copyright Ben Weeks 2024</footer>
       </body>
     </html>
   );

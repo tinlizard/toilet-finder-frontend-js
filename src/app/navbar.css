@@ -9,6 +9,10 @@
     outline: 2px solid black;
 }
 
+.navbar a {
+    text-decoration: none;
+}
+
 .navbar li {
     list-style-type: none;
     color: black;

@@ -1,0 +1,18 @@
+.home-h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.home-main {
+    display: flex;
+    justify-content: center;
+}
+
+.home-main li {
+    font-size: 25px;
+}
+
+.home-main li p {
+    margin-left: 40px;
+    font-size: 20px;
+}
