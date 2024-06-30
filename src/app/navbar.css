@@ -1,5 +1,5 @@
 .navbar {
-    width: 15%;
+    width: 200px;
     position: absolute;
     top: 0;
     left: 0;
@@ -9,22 +9,28 @@
     outline: 2px solid black;
 }
 
+.navbar img {
+    padding-right: 15px;
+}
+
 .navbar-small {
-    width: 4%;
+    width: 80px;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     padding: 0.5%;
-    padding-bottom: 8%;
     outline: 2px solid black;
 }
 
 .navbar-small li {
     list-style-type: none;
+    left: 0;
+    right: 0;
     color: black;
     padding: 7%;
+    padding-bottom: 8%;
     font-weight: bold;
 }
 
