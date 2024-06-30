@@ -29,6 +29,16 @@ export default function SearchBar(){
     
     return(
         <>
+          <div className="sign-in-right">
+              <button style={{backgroundColor: "#f2cc8b"}}>
+                <Image src="/login.png"
+                  width={35}
+                  height={35}
+                  alt="login icon button"
+                >
+                </Image>
+              </button>
+          </div>  
           <div className="title">
             <Image
             src="/toilet.png"
