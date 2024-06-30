@@ -1,7 +1,19 @@
 .title {
+    font-family: 'Courier New', Courier, monospace;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sign-in-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sign-in-right button {
+    border: none; 
+    background: none;
+    box-shadow: none; 
 }
 
 .searchbar-container {
@@ -27,6 +39,9 @@
 }
 
 .searchbar-button {
+    border: none; 
+    background: none;
+    box-shadow: none; 
     padding: 1.5%;
     align-items: left;
     flex:none;
@@ -37,6 +52,9 @@
   }
 
 .search-menu-button {
+    border: none; 
+    background: none;
+    box-shadow: none; 
     justify-content: flex-start;
     padding: 3.5%;
     outline: 2px solid black;
@@ -44,7 +62,6 @@
 }
 
 .title h1 {
-    /*text-align: center;*/
     font-weight: bold;
 }
 
