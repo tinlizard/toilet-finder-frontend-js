@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import NavbarMenu from "./navbar-menu"
+import SignInStatus from "./sign-in-status"
 
 export default function SearchBar(){
     const [input,setInput] = useState("Enter city/country name, or address...")
     const [data,setData] = useState("No data")
     const [visibility,setVisibility] = useState(false)
+    const [loggedIn,setLoggedIn] = useState(false)
 
     async function fetchData(){
       const response = await fetch("http://127.0.0.1:8000/toilets/")
@@ -29,16 +31,7 @@ export default function SearchBar(){
     
     return(
         <>
-          <div className="sign-in-right">
-              <button style={{backgroundColor: "#f2cc8b"}}>
-                <Image src="/login.png"
-                  width={35}
-                  height={35}
-                  alt="login icon button"
-                >
-                </Image>
-              </button>
-          </div>  
+          <SignInStatus isLoggedIn={loggedIn}></SignInStatus>
           <div className="title">
             <Image
             src="/toilet.png"
