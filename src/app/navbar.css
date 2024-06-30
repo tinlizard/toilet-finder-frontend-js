@@ -9,6 +9,30 @@
     outline: 2px solid black;
 }
 
+.navbar-small {
+    width: 4%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.5%;
+    padding-bottom: 8%;
+    outline: 2px solid black;
+}
+
+.navbar-small li {
+    list-style-type: none;
+    color: black;
+    padding: 7%;
+    font-weight: bold;
+}
+
+.navbar-small li:hover {
+    background-color: orange;
+}
+
+
 .navbar a {
     text-decoration: none;
 }
@@ -16,7 +40,7 @@
 .navbar li {
     list-style-type: none;
     color: black;
-    padding: 5%;
+    padding: 7%;
     font-weight: bold;
 }
 

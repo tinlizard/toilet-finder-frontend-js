@@ -15,7 +15,7 @@ export default function Home() {
         <ol>
           <li>
             Toilet 1
-            <p>The awesome stuff</p>
+            <p>Placeholder text</p>
           </li>
           <li>Toilet 2</li>
         </ol>
