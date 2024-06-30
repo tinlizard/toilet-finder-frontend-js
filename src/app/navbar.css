@@ -1,0 +1,56 @@
+.navbar {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.5%;
+    outline: 2px solid black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.navbar img {
+    padding-right: 15px;
+}
+
+.navbar-small {
+    width: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.5%;
+    outline: 2px solid black;
+}
+
+.navbar-small li {
+    list-style-type: none;
+    left: 0;
+    right: 0;
+    color: black;
+    padding: 7%;
+    padding-bottom: 8%;
+    font-weight: bold;
+}
+
+.navbar-small li:hover {
+    background-color: orange;
+}
+
+
+.navbar a {
+    text-decoration: none;
+}
+
+.navbar li {
+    list-style-type: none;
+    color: black;
+    padding: 7%;
+    font-weight: bold;
+}
+
+.navbar li:hover {
+    background-color: orange;
+}
