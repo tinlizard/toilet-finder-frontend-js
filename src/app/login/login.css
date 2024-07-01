@@ -1,0 +1,31 @@
+.login {
+    margin-top: 50px;
+    text-align: center;
+    display: block;
+}
+
+.login input {
+    width: 400px;
+    outline: 2px solid black;
+    height: 35px;
+}
+
+.login label {
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.login button {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border: none; 
+    outline: 2px solid black;
+    background: none;
+    box-shadow: none; 
+    background-color: orange;
+    color: white;
+    font-size: 20px;
+    /*border-radius: 8px;*/
+    padding: 20px;
+}
