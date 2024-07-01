@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Status {
     isLoggedIn: boolean
@@ -23,8 +24,10 @@ export default function SignInStatus({isLoggedIn}:Status) {
         ) 
     } else {
         return(
-            <div className="sign-in-right">
-                <h3>Log in/Sign up</h3>
+            <div className="login-container">
+                <div className="sign-in-right">
+                    <h3><Link href="/login">Log in/Sign up</Link></h3>
+                </div>
             </div>
         )
     }

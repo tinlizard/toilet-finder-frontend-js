@@ -1,13 +1,13 @@
 "use client"
-import Image from "next/image";
 import "./home.css"
-import { useState } from "react";
+import SearchBar from "./searchbar";
 
 export default function Home() {
-  const [data,setData] = useState("No data")
 
   return (
-    <div className="home-container">
+    <div>
+      <SearchBar></SearchBar>
+      <div className="home-container">
       <div className="home-h1">
         <h1>Top-reviewed toilets in your area</h1>
       </div>
@@ -20,6 +20,7 @@ export default function Home() {
           <li>Toilet 2</li>
         </ol>
       </div>
+    </div>
     </div>
   );
 }
