@@ -7,7 +7,7 @@ interface Status {
     isLoggedIn: boolean
 }
 
-export default function SignInStatus({isLoggedIn}:Status) {
+export default function SignInStatus({isLoggedIn}: Status) {
     if(isLoggedIn) {
         return(
             <div className="sign-in-right">
