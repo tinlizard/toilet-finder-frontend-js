@@ -1,7 +1,9 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, createContext } from "react"
 import Image from "next/image"
 import SignInStatus from "./sign-in-status"
+
+export const LoginContext = createContext(false)
 
 interface Toilet {
   address: string,
@@ -10,9 +12,9 @@ interface Toilet {
 }
 
 export default function SearchBar(){
-    const [input,setInput] = useState("Enter city/country name, or address...")
+    const [input,setInput] = useState<string>("Enter city/country name, or address...")
     const [data,setData] = useState<Toilet[]>([{address: "No data", country: 'No data', city: 'No data'}]) //default values for data
-    const [loggedIn,setLoggedIn] = useState(false)
+    const [loggedIn,setLoggedIn] = useState<boolean>(false)
 
     async function fetchData(){
       const response = await fetch("http://127.0.0.1:8000/toilets/")
@@ -35,7 +37,9 @@ export default function SearchBar(){
     
     return(
         <>
-          <SignInStatus isLoggedIn={loggedIn}></SignInStatus>
+          <LoginContext.Provider value={{loggedIn,setLoggedIn}}>
+            <SignInStatus isLoggedIn={loggedIn}></SignInStatus>
+          </LoginContext.Provider>
           <div className="title">
             <Image
             src="/toilet.png"
