@@ -1,0 +1,10 @@
+#map {
+    width: 900px;
+    height: 300px;
+}
+
+#map li {
+    list-style-type: none;
+    font-size: 10px;
+    margin-left: 700px;
+}
