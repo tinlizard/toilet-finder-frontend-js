@@ -4,7 +4,6 @@ import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
 
 export default function Home() {
-
   return (
     <div>
       <SearchBar></SearchBar>
