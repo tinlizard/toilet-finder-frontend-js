@@ -1,6 +1,7 @@
 "use client"
 import "./home.css"
 import SearchBar from "./searchbar";
+import PopularMap from "./popularMap";
 
 export default function Home() {
 
@@ -12,6 +13,7 @@ export default function Home() {
         <h1>Top-reviewed toilets in your area</h1>
       </div>
       <div className="home-main">
+        <PopularMap></PopularMap>
         <ol>
           <li>
             Toilet 1
