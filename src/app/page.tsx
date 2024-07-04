@@ -4,6 +4,7 @@ import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
 import { useState,useEffect,createContext } from "react";
 import { load } from "ol/Image";
+import Image from "next/image";
 
 export const CoordinateContext = createContext<number[]>([0,0])
 
@@ -39,6 +40,9 @@ export default function Home() {
         <SearchBar></SearchBar>
         <div className="home-h1">
           <h1>Loading geolocation data... please make sure you have allowed geolocation services.</h1>
+        </div>
+        <div className="home-gif">
+         <Image src={"/loading.gif"} width={100} height={100} alt="loading animation gif"></Image>
         </div>
       </div>
     )
