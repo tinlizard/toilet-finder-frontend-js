@@ -2,6 +2,7 @@
     margin-left: 60px;
     display: flex;
     justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .home-main {
@@ -21,4 +22,8 @@
 .map-container {
     padding-top: 50px;
     margin-left: 500px;
+}
+
+.home-gif {
+   margin-left: 900px;
 }
