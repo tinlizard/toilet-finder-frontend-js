@@ -39,7 +39,7 @@ export default function Home() {
       <div>
         <SearchBar></SearchBar>
         <div className="home-h1">
-          <h1>Loading geolocation data... please make sure you have allowed geolocation services.</h1>
+          <h1>Loading top toilets in your area... please make sure you have allowed geolocation services.</h1>
         </div>
         <div className="home-gif">
          <Image src={"/loading.gif"} width={100} height={100} alt="loading animation gif"></Image>
