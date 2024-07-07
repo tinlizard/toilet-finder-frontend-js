@@ -3,10 +3,7 @@ import "./home.css"
 import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
 import { useState,useEffect,createContext } from "react";
-import { load } from "ol/Image";
 import Image from "next/image";
-
-export const CoordinateContext = createContext<number[]>([0,0])
 
 export default function Home() {
   const [latitude, setLatitude] = useState<number>(0)
@@ -14,14 +11,19 @@ export default function Home() {
   const [coordinates,setCoordinates] = useState<number[]>([0,0])
   const [loading,setLoading] = useState<boolean>(true)
 
+  const addElements = (newElements: number[]) => {
+    setCoordinates([])
+    setCoordinates([...newElements])
+  }
+
   const getLocationInfo = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitude(position.coords.latitude);
-        console.log('got latitude')
+        console.log(`got latitude: ${position.coords.latitude}, typeof latitude: ${typeof(position.coords.latitude)}`)
         setLongitude(position.coords.longitude);
-        console.log('got longitude')
-        setCoordinates([4,5])
+        console.log(`got longitude: ${longitude}`)
+        addElements([position.coords.longitude,position.coords.latitude])
         console.log(coordinates)
         setLoading(false)
       })
@@ -51,7 +53,7 @@ export default function Home() {
       <div>
         <SearchBar></SearchBar>
         <div className="map-container">
-        <PopularMap></PopularMap>
+          <PopularMap coordinates={coordinates}></PopularMap>
       </div>
       <div className="home-container">
       <div className="home-h1">
@@ -61,10 +63,8 @@ export default function Home() {
         <ol>
           <li>
             Toilet 1
-            <p>latitude: {latitude}</p>
-          </li>
-          <li>Toilet 2
             <p>longitude: {longitude}</p>
+            <p>latitude: {latitude}</p>
           </li>
         </ol>
       </div>
