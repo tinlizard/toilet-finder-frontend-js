@@ -4,9 +4,14 @@ import Map from 'ol/Map.js';
 import OSM from 'ol/source/OSM.js';
 import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
+import * as olProj from 'ol/proj'
 import './map.css'
 
-export default function PopularMap(){
+interface Coordinates {
+  coordinates: number[];
+}
+
+export default function PopularMap({coordinates}: Coordinates){
     useEffect(() => {
         const map = new Map({
             layers: [
@@ -16,8 +21,8 @@ export default function PopularMap(){
             ],
             target: 'map',
             view: new View({
-              center: [0, 0],
-              zoom: 2,
+              center: olProj.fromLonLat(coordinates),
+              zoom: 13,
             }),
           });
 
@@ -26,6 +31,8 @@ export default function PopularMap(){
     
 
     return(
-       <div id="map" style={{width: "400px", height: "300px"}}/>
+       <div id="map">
+
+       </div>
     )
 }
