@@ -2,7 +2,7 @@
 import "./home.css"
 import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
-import { useState,useEffect,createContext } from "react";
+import { useState,useEffect} from "react";
 import Image from "next/image";
 
 export default function Home() {
