@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState, useContext, SetStateAction } from "react"
+import { useState, useContext } from "react"
 import "./login.css"
 import { LoginContext } from "../searchbar"
 
