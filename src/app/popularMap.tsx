@@ -4,6 +4,11 @@ import Map from 'ol/Map.js';
 import OSM from 'ol/source/OSM.js';
 import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
+import { Feature } from 'ol';
+import { Point } from 'ol/geom';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import { Vector } from 'ol/source';
 import * as olProj from 'ol/proj'
 import './map.css'
 
@@ -26,7 +31,31 @@ export default function PopularMap({coordinates}: Coordinates){
             }),
           });
 
-          return () => map.setTarget(null);
+        const poi = new Feature({
+            geometry: new Point(olProj.fromLonLat(coordinates)),
+            name: 'POI'
+        });
+
+        const poiStyle = new Style({
+          image: new Icon({
+              anchor: olProj.fromLonLat(coordinates),
+              src: '../../public/poi.png',
+          })
+        });
+
+        const vectorSource = new Vector({
+          features: [poi]
+      });
+      
+      const vectorLayer = new Vector({
+          source: vectorSource
+      });
+      
+      map.addLayer(vectorLayer);
+      
+      
+        poi.setStyle(poiStyle);
+        return () => map.setTarget(null);
     }, [])
     
 
