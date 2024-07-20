@@ -4,13 +4,14 @@ import Map from 'ol/Map.js';
 import OSM from 'ol/source/OSM.js';
 import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
-import { Feature } from 'ol';
-import { Point } from 'ol/geom';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
-import { Vector } from 'ol/source';
+import VectorSource from 'ol/source/Vector';
+import { Point } from 'ol/geom';
+import VectorLayer from 'ol/layer/Vector';
 import * as olProj from 'ol/proj'
 import './map.css'
+import { Feature } from 'ol';
 
 interface Coordinates {
   coordinates: number[];
@@ -31,31 +32,26 @@ export default function PopularMap({coordinates}: Coordinates){
             }),
           });
 
-        const poi = new Feature({
-            geometry: new Point(olProj.fromLonLat(coordinates)),
-            name: 'POI'
-        });
+        const locationMarker = new Feature({
+          type: 'icon',
+          geometry: new Point(olProj.fromLonLat(coordinates)),
+        })
 
-        const poiStyle = new Style({
-          image: new Icon({
-              anchor: olProj.fromLonLat(coordinates),
-              src: '../../public/poi.png',
-          })
-        });
-
-        const vectorSource = new Vector({
-          features: [poi]
-      });
-      
-      const vectorLayer = new Vector({
-          source: vectorSource
-      });
-      
-      map.addLayer(vectorLayer);
+        const markerLayer = new VectorLayer({
+          source: new VectorSource({
+            features: [locationMarker],
+            }),
+            style: new Style({
+              image: new Icon({
+                anchor: [0.5,1],
+                src: './marker.png' 
+              })
+            }),
+        })
       
       
-        poi.setStyle(poiStyle);
-        return () => map.setTarget(null);
+        map.addLayer(markerLayer)
+        return () => map.setTarget(null); //ignore typescript error here, this still works
     }, [])
     
 
