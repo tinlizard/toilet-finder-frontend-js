@@ -44,7 +44,9 @@ export default function PopularMap({coordinates}: Coordinates){
             style: new Style({
               image: new Icon({
                 anchor: [0.5,1],
-                src: './marker.png' 
+                width: 30,
+                height: 40,
+                src: 'marker.png' 
               })
             }),
         })
