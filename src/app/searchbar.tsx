@@ -1,9 +1,10 @@
 "use client"
-import { useEffect, useState, createContext } from "react"
+import { useEffect, useState, createContext, useContext } from "react"
 import Image from "next/image"
 import SignInStatus from "./sign-in-status"
+import { useRouter } from 'next/navigation'
 
-export const LoginContext = createContext(false)
+export const LoginContext = createContext<boolean>(false)
 
 interface Toilet {
   address: string,
@@ -11,8 +12,12 @@ interface Toilet {
   city: string,
 }
 
-export default function SearchBar(){
-    const [input,setInput] = useState<string>("Enter city/country name, or address...")
+interface InputProps {
+  input: string,
+  setInput: (props: any) => void
+}
+
+export default function SearchBar({input,setInput}:InputProps){
     const [data,setData] = useState<Toilet[]>([{address: "No data", country: 'No data', city: 'No data'}]) //default values for data
     const [loggedIn,setLoggedIn] = useState<boolean>(false)
 
@@ -24,6 +29,7 @@ export default function SearchBar(){
       for(let i=0; i<data.length; i++){
         if(input === data[i].address || input === data[i].country || input == data[i].city){
           console.log(`${input} exists!`)
+          
         }
         else {
           console.log('your input does not exist')

@@ -2,14 +2,18 @@
 import "./home.css"
 import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
-import { useState,useEffect} from "react";
+import { useState,useEffect,createContext} from "react";
 import Image from "next/image";
+
+export const InputContext = createContext("Enter city/country name, or address...")
 
 export default function Home() {
   const [latitude, setLatitude] = useState<number>(0)
   const [longitude, setLongitude] = useState<number>(0)
   const [coordinates,setCoordinates] = useState<number[]>([0,0])
   const [loading,setLoading] = useState<boolean>(true)
+  const [input,setInput] = useState<string>("Enter city/country name, or address...")
+  const [results,setResults] = useState("Top-reviewed toilets in your area")
 
   const addElements = (newElements: number[]) => {
     setCoordinates([])
@@ -36,10 +40,17 @@ export default function Home() {
     getLocationInfo()
   }, []);
 
+  useEffect(() => {
+      if(input!=="Enter city/country name, or address..."){
+        setResults(`Search results for ${input}`)
+      }
+  }, [input])
+  
+
   if(loading){
     return (
       <div>
-        <SearchBar></SearchBar>
+          <SearchBar input={input} setInput={setInput}></SearchBar>
         <div className="home-h1">
           <h1>Loading top toilets in your area... please make sure you have allowed geolocation services.</h1>
         </div>
@@ -51,13 +62,14 @@ export default function Home() {
   } else {
     return(
       <div>
-        <SearchBar></SearchBar>
+          <SearchBar input={input} setInput={setInput}></SearchBar>
+        
         <div className="map-container">
           <PopularMap coordinates={coordinates}></PopularMap>
       </div>
       <div className="home-container">
       <div className="home-h1">
-        <h1>Top-reviewed toilets in your area</h1>
+        <h1>{results}</h1>
       </div>
       <div className="home-main">
         <ol>
