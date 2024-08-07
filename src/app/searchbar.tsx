@@ -73,3 +73,9 @@ export default function SearchBar({input,setInput}:InputProps){
         </>
     )
 }
+
+export const AuthProvider = ({children}) => {
+  const {loggedIn,setLoggedIn} = useContext(LoginContext)
+
+  return <LoginContext.Provider value={{loggedIn,setLoggedIn}}>{children}</LoginContext.Provider>
+}

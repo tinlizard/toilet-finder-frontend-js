@@ -1,16 +1,16 @@
 "use client"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import "./login.css"
 import { LoginContext } from "../searchbar"
 
 export default function Login(){
-    const {login,setLoggedIn} = useContext<boolean>(LoginContext)
+    const {login,setLoggedIn} = useContext(LoginContext)
 
     const [username,setUsername] = useState<string>("")
     const [password,setPassword] = useState<string>("")
 
     async function getAuth() {
-        const response = await fetch("http://127.0.0.1:8000/users")
+        const response = await fetch("http://127.0.0.1:8000/users/")
         const jsonResponse = await response.json()
         
         for(let i=0; i<jsonResponse.length; i++){
@@ -19,6 +19,13 @@ export default function Login(){
             }
         }
     }
+
+    //debugging
+    useEffect(() => {
+       console.log(`username is: ${username}`)
+       console.log(`password is: ${password}`)
+    }, [username,password])
+    
 
     return(
         <div className="login">

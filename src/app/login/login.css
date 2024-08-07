@@ -8,6 +8,9 @@
     width: 400px;
     outline: 2px solid black;
     height: 35px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    padding-left: 20px;
 }
 
 .login label {

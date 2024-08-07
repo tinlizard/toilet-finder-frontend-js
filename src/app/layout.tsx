@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SearchBar from "./searchbar";
 import { useState } from "react";
+import { AuthProvider } from "./searchbar";
 import NavbarMenu from "./navbar-menu";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
-        <NavbarMenu></NavbarMenu>
-        <footer>©️ Copyright Ben Weeks 2024</footer>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+          <NavbarMenu />
+          <footer>©️ Copyright Ben Weeks 2024</footer>
       </body>
     </html>
   );
