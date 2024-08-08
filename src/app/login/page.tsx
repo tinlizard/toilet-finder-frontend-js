@@ -1,10 +1,10 @@
 "use client"
 import { useState, useContext, useEffect } from "react"
 import "./login.css"
-import { LoginContext } from "../searchbar"
+import { useLogin } from "../searchbar"
 
 export default function Login(){
-    const {login,setLoggedIn} = useContext(LoginContext)
+    const {login,setLoggedIn} = useLogin()
 
     const [username,setUsername] = useState<string>("")
     const [password,setPassword] = useState<string>("")

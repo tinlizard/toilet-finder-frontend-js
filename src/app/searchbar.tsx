@@ -79,3 +79,5 @@ export const AuthProvider = ({children}) => {
 
   return <LoginContext.Provider value={{loggedIn,setLoggedIn}}>{children}</LoginContext.Provider>
 }
+
+export const useLogin = () => useContext(LoginContext)
