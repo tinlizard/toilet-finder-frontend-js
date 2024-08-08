@@ -1,13 +1,13 @@
 "use client"
 import { LoginContext } from "../searchbar";
-import { useContext } from 'react';
+import { useAuth } from "../AuthContext";
 import "./account.css"
 import Login from "../login/page";
 import "../login/login.css"
 
 
 export default function Account(){
-    const {login,setLoggedIn} = useContext<boolean>(LoginContext)
+    const {login,setLoggedIn} = useAuth()
 
     if (login){
         return(

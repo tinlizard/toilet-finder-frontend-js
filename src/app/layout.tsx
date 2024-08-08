@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SearchBar from "./searchbar";
 import { useState } from "react";
-import { AuthProvider } from "./searchbar";
+import { AuthProvider } from "./AuthContext";
 import NavbarMenu from "./navbar-menu";
 
 const inter = Inter({ subsets: ["latin"] });
