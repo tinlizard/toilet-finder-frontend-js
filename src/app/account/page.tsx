@@ -4,12 +4,13 @@ import { useAuth } from "../AuthContext";
 import "./account.css"
 import Login from "../login/page";
 import "../login/login.css"
+import Cookies from "js-cookie";
 
 
 export default function Account(){
-    const {login,setLoggedIn} = useAuth()
+    const {loggedIn,setLoggedIn} = useAuth()
 
-    if (login){
+    if (loggedIn || Cookies.get('loggedIn')){
         return(
             <div className="account">
                 <p>Logged in</p>
