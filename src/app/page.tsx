@@ -26,6 +26,7 @@ export default function Home() {
         setLatitude(position.coords.latitude);
         console.log(`got latitude: ${position.coords.latitude}, typeof latitude: ${typeof(position.coords.latitude)}`)
         setLongitude(position.coords.longitude);
+
         console.log(`got longitude: ${longitude}`)
         addElements([position.coords.longitude,position.coords.latitude])
         console.log(coordinates)

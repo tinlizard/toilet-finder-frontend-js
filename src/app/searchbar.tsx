@@ -3,6 +3,7 @@ import { useEffect, useState, createContext, useContext } from "react"
 import Image from "next/image"
 import SignInStatus from "./sign-in-status"
 import { useRouter } from 'next/navigation'
+import Cookies from "js-cookie"
 
 export const LoginContext = createContext<boolean>(false)
 
@@ -19,7 +20,6 @@ interface InputProps {
 
 export default function SearchBar({input,setInput}:InputProps){
     const [data,setData] = useState<Toilet[]>([{address: "No data", country: 'No data', city: 'No data'}]) //default values for data
-    const [loggedIn,setLoggedIn] = useState<boolean>(false)
 
     async function fetchData(){
       const response = await fetch("http://127.0.0.1:8000/toilets/")
@@ -43,9 +43,7 @@ export default function SearchBar({input,setInput}:InputProps){
     
     return(
         <>
-          <LoginContext.Provider value={{loggedIn,setLoggedIn}}>
-            <SignInStatus isLoggedIn={loggedIn}></SignInStatus>
-          </LoginContext.Provider>
+          <SignInStatus isLoggedIn={Cookies.get('loggedIn')==='true' || Cookies.get('loggedIn') === 'false'}></SignInStatus>
           <div className="title">
             <Image
             src="/toilet.png"
@@ -73,11 +71,3 @@ export default function SearchBar({input,setInput}:InputProps){
         </>
     )
 }
-
-export const AuthProvider = ({children}) => {
-  const {loggedIn,setLoggedIn} = useContext(LoginContext)
-
-  return <LoginContext.Provider value={{loggedIn,setLoggedIn}}>{children}</LoginContext.Provider>
-}
-
-export const useLogin = () => useContext(LoginContext)
