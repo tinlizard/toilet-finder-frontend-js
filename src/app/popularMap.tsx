@@ -20,14 +20,24 @@ export default function PopularMap({latitude,longitude}: Coordinates){
       lat: latitude,
       lng: longitude,
     },
-    zoom: 15
+    zoom: 15,
+    mapId: "NEARBY_TOILETS"
   };
 
     useEffect(() => {
         loader
           .importLibrary('maps')
-          .then(({Map}) => {
-            new Map(document.getElementById("map"), mapOptions);
+          .then(async ({Map}) => {
+            const map = new Map(document.getElementById("map"), mapOptions)
+            const {AdvancedMarkerElement} = await loader.importLibrary('marker')
+            new AdvancedMarkerElement({map, position: mapOptions.center})
+
+
+            /*
+            An example of an AdvancedMarkerElement placed at custom coordinates. 
+
+            new AdvancedMarkerElement({map, position: {lat:50.071900,lng:14.408242}})
+            */
           })
           .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
     }, [])
