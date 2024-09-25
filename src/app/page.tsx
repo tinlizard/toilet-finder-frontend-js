@@ -11,15 +11,9 @@ export const InputContext = createContext("Enter city/country name, or address..
 export default function Home() {
   const [latitude, setLatitude] = useState<number | null>(null)
   const [longitude, setLongitude] = useState<number | null>(null)
-  const [coordinates,setCoordinates] = useState<number[]>([0,0])
   const [loading,setLoading] = useState<boolean>(true)
   const [input,setInput] = useState<string>("Enter city/country name, or address...")
   const [results,setResults] = useState("Top-reviewed toilets in your area")
-
-  const addElements = (newElements: number[]) => {
-    setCoordinates([])
-    setCoordinates([...newElements])
-  }
 
   const getLocationInfo = () => {
     if (navigator.geolocation) {
@@ -29,9 +23,6 @@ export default function Home() {
         setLongitude(position.coords.longitude);
 
         console.log(`got longitude: ${longitude}`)
-        //addElements([position.coords.longitude,position.coords.latitude])
-
-        console.log(coordinates)
         setLoading(false)
       }, 
       (error)=> console.log(`Error receiving geolocation data: ${error}`), 
@@ -50,9 +41,6 @@ export default function Home() {
         setResults(`Search results for ${input}`)
       }
   }, [input])
-
-
-  
 
   if(loading){
     return (
