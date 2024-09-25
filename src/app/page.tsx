@@ -4,12 +4,13 @@ import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
 import { useState,useEffect,createContext} from "react";
 import Image from "next/image";
+import NearbyToilets from "./nearbyToilets";
 
 export const InputContext = createContext("Enter city/country name, or address...")
 
 export default function Home() {
-  const [latitude, setLatitude] = useState<number>(0)
-  const [longitude, setLongitude] = useState<number>(0)
+  const [latitude, setLatitude] = useState<number | null>(null)
+  const [longitude, setLongitude] = useState<number | null>(null)
   const [coordinates,setCoordinates] = useState<number[]>([0,0])
   const [loading,setLoading] = useState<boolean>(true)
   const [input,setInput] = useState<string>("Enter city/country name, or address...")
@@ -28,17 +29,20 @@ export default function Home() {
         setLongitude(position.coords.longitude);
 
         console.log(`got longitude: ${longitude}`)
-        addElements([position.coords.longitude,position.coords.latitude])
+        //addElements([position.coords.longitude,position.coords.latitude])
+
         console.log(coordinates)
         setLoading(false)
-      })
+      }, 
+      (error)=> console.log(`Error receiving geolocation data: ${error}`), 
+      { enableHighAccuracy: true })
     } else {
       console.log('Geolocation is NOT Available');
     }
   };
 
   useEffect(() => {
-    getLocationInfo()
+    getLocationInfo()    
   }, []);
 
   useEffect(() => {
@@ -46,6 +50,8 @@ export default function Home() {
         setResults(`Search results for ${input}`)
       }
   }, [input])
+
+
   
 
   if(loading){
@@ -64,22 +70,15 @@ export default function Home() {
     return(
       <div>
           <SearchBar input={input} setInput={setInput}></SearchBar>
-        
         <div className="map-container">
-          <PopularMap coordinates={coordinates}></PopularMap>
+          <PopularMap latitude={latitude} longitude={longitude}></PopularMap>
       </div>
       <div className="home-container">
       <div className="home-h1">
         <h1>{results}</h1>
       </div>
       <div className="home-main">
-        <ol>
-          <li>
-            Toilet 1
-            <p>longitude: {longitude}</p>
-            <p>latitude: {latitude}</p>
-          </li>
-        </ol>
+        <NearbyToilets longitude={longitude} latitude={latitude}></NearbyToilets>
       </div>
       </div>
       </div>

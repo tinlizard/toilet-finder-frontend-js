@@ -1,59 +1,35 @@
 "use client"
 import { useEffect } from 'react';
-import Map from 'ol/Map.js';
-import OSM from 'ol/source/OSM.js';
-import TileLayer from 'ol/layer/Tile.js';
-import View from 'ol/View.js';
-import Style from 'ol/style/Style';
-import Icon from 'ol/style/Icon';
-import VectorSource from 'ol/source/Vector';
-import { Point } from 'ol/geom';
-import VectorLayer from 'ol/layer/Vector';
-import * as olProj from 'ol/proj'
 import './map.css'
-import { Feature } from 'ol';
+import { Loader } from "@googlemaps/js-api-loader"
 
 interface Coordinates {
-  coordinates: number[];
+  latitude: number | null;
+  longitude: number | null;
 }
 
-export default function PopularMap({coordinates}: Coordinates){
+export default function PopularMap({latitude,longitude}: Coordinates){
+  const loader = new Loader({
+    apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
+    version: "weekly",
+    libraries: ["places"]
+  });
+  
+  const mapOptions = {
+    center: {
+      lat: latitude,
+      lng: longitude,
+    },
+    zoom: 15
+  };
+
     useEffect(() => {
-        const map = new Map({
-            layers: [
-              new TileLayer({
-                source: new OSM(),
-              }),
-            ],
-            target: 'map',
-            view: new View({
-              center: olProj.fromLonLat(coordinates),
-              zoom: 13,
-            }),
-          });
-
-        const locationMarker = new Feature({
-          type: 'icon',
-          geometry: new Point(olProj.fromLonLat(coordinates)),
-        })
-
-        const markerLayer = new VectorLayer({
-          source: new VectorSource({
-            features: [locationMarker],
-            }),
-            style: new Style({
-              image: new Icon({
-                anchor: [0.5,1],
-                width: 30,
-                height: 40,
-                src: 'marker.png' 
-              })
-            }),
-        })
-      
-      
-        map.addLayer(markerLayer)
-        return () => map.setTarget(null); //ignore typescript error here, this still works
+        loader
+          .importLibrary('maps')
+          .then(({Map}) => {
+            new Map(document.getElementById("map"), mapOptions);
+          })
+          .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
     }, [])
     
 
