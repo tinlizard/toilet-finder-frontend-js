@@ -11,6 +11,8 @@ interface Coordinates {
 
 export default function PopularMap({latitude,longitude}: Coordinates){
   const [address, setAddress] = useState<string | null>(null);
+  const [city, setCity] = useState<string | null>(null);
+  const [data,setData] = useState<string | null>(null);
 
   const loader = new Loader({
     apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
@@ -42,15 +44,23 @@ export default function PopularMap({latitude,longitude}: Coordinates){
 
             new AdvancedMarkerElement({map, position: mapOptions.center})
            
+            /*
+            An example of an AdvancedMarkerElement placed at custom coordinates. 
 
-        secondLoader
+            new AdvancedMarkerElement({map, position: {lat:50.071900,lng:14.408242}})
+            */
+
+          })
+          .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
+
+          secondLoader
          .importLibrary('geocoding')
          .then(async({Geocoder})=>{
            const geocoder = new Geocoder()
            
            geocoder
            .geocode({ location: { lat: latitude, lng: longitude } })
-           .then((response) => {
+           .then((response: any) => {
              if (response.results && response.results.length > 0) {
                setAddress(response.results[0].formatted_address);
                console.log(`Address is: ${response.results[0].formatted_address}`);
@@ -58,20 +68,24 @@ export default function PopularMap({latitude,longitude}: Coordinates){
                console.error('No results found');
              }
            })
-           .catch((error) => {
+           .catch((error: any) => {
              console.error(`Geocoder failed due to: ${error}`);
            });
          })
-      
-
-            /*
-            An example of an AdvancedMarkerElement placed at custom coordinates. 
-
-            new AdvancedMarkerElement({map, position: {lat:50.071900,lng:14.408242}})
-            */
-          })
-          .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
     }, [])
+
+    useEffect(() => {
+      if(address && address.includes("Praha")) {
+        setCity("Prague")
+        fetch("http://127.0.0.1:8000/toilets/")
+        .then(response=> response.json())
+        .then(fetchData => {
+          setData(JSON.stringify(fetchData))
+          console.log(`Fetched data is ${data}`)
+        })
+        .catch(error => console.error(`Error fetching data from toilets database API! Error is: ${error}`))
+      }
+    }, [address])
     
 
     return(
