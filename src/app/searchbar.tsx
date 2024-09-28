@@ -20,6 +20,7 @@ interface InputProps {
 
 export default function SearchBar({input,setInput}:InputProps){
     const [data,setData] = useState<Toilet[]>([{address: "No data", country: 'No data', city: 'No data'}]) //default values for data
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
     async function fetchData(){
       const response = await fetch("http://127.0.0.1:8000/toilets/")
@@ -40,10 +41,16 @@ export default function SearchBar({input,setInput}:InputProps){
     useEffect(() => {
       console.log(input)
     }, [input])
+
+    useEffect(() => {
+      // Check cookie on client side and update state
+      const loggedInStatus = Cookies.get('loggedIn') === 'true';
+      setIsLoggedIn(loggedInStatus);
+    }, []);
     
     return(
         <>
-          <SignInStatus isLoggedIn={Cookies.get('loggedIn')==='true' || Cookies.get('loggedIn') === 'false'}></SignInStatus>
+          <SignInStatus isLoggedIn={isLoggedIn}></SignInStatus>
           <div className="title">
             <Image
             src="/toilet.png"

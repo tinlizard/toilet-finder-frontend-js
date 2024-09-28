@@ -33,12 +33,23 @@ export default function PopularMap({latitude,longitude}: Coordinates){
     mapId: "NEARBY_TOILETS"
   };
 
+  const fetchLocalToilets = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/toilets/")
+      const data = await response.json()
+      setData(JSON.stringify(data))
+      console.log(`Fetched data is ${data}`)
+    } catch(error) {
+      console.error(`Geocoder failed due to: ${error}`)
+    }
+  }
+
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
 
         loader
           .importLibrary('maps')
-          .then(async ({Map, Geocoder}) => {
+          .then(async ({Map}) => {
             const map = new Map(document.getElementById("map"), mapOptions)
             const {AdvancedMarkerElement} = await loader.importLibrary('marker')
 
@@ -77,13 +88,7 @@ export default function PopularMap({latitude,longitude}: Coordinates){
     useEffect(() => {
       if(address && address.includes("Praha")) {
         setCity("Prague")
-        fetch("http://127.0.0.1:8000/toilets/")
-        .then(response=> response.json())
-        .then(fetchData => {
-          setData(JSON.stringify(fetchData))
-          console.log(`Fetched data is ${data}`)
-        })
-        .catch(error => console.error(`Error fetching data from toilets database API! Error is: ${error}`))
+        fetchLocalToilets()
       }
     }, [address])
     
