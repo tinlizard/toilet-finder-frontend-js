@@ -43,7 +43,7 @@ export default function SearchBar({input,setInput}:InputProps){
     }, [input])
 
     useEffect(() => {
-      // Check cookie on client side and update state
+      //check cookie on client side and update state
       const loggedInStatus = Cookies.get('loggedIn') === 'true';
       setIsLoggedIn(loggedInStatus);
     }, []);
