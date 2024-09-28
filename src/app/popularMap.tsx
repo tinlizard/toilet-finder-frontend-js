@@ -12,7 +12,7 @@ interface Coordinates {
 export default function PopularMap({latitude,longitude}: Coordinates){
   const [address, setAddress] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
-  const [data,setData] = useState<string | null>(null);
+  const [data,setData] = useState<any>(null);
 
   const loader = new Loader({
     apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
@@ -36,8 +36,8 @@ export default function PopularMap({latitude,longitude}: Coordinates){
   const fetchLocalToilets = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/toilets/")
-      const data = await response.json()
-      setData(JSON.stringify(data))
+      const localData = await response.json()
+      setData(JSON.stringify(localData))
       console.log(`Fetched data is ${data}`)
     } catch(error) {
       console.error(`Geocoder failed due to: ${error}`)

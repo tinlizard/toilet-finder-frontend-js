@@ -36,6 +36,7 @@
 }
 
 .navbar-small li:hover {
+    border-radius: 15px;
     background-color: orange;
 }
 

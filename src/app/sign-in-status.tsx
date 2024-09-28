@@ -11,7 +11,7 @@ export default function SignInStatus({isLoggedIn}: Status) {
     if(isLoggedIn) {
         return(
             <div className="sign-in-right">
-                <button style={{backgroundColor: "#f2cc8b"}}>
+                <button style={{backgroundColor: "#ffffff"}}>
                     <Image src="/login.png"
                         width={35}
                         height={35}

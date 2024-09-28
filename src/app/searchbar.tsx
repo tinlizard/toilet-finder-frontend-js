@@ -5,8 +5,6 @@ import SignInStatus from "./sign-in-status"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie"
 
-export const LoginContext = createContext<boolean>(false)
-
 interface Toilet {
   address: string,
   country: string,
