@@ -9,10 +9,15 @@ interface Coordinates {
   longitude: number | null;
 }
 
+interface Toilet {
+  latitude: number,
+  longitude: number,
+}
+
 export default function PopularMap({latitude,longitude}: Coordinates){
   const [address, setAddress] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
-  const [data,setData] = useState<any>(null);
+  const [data,setData] = useState<Toilet[]>([{latitude: 46.057930, longitude: 14.502650}]);
 
   const loader = new Loader({
     apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
@@ -29,15 +34,15 @@ export default function PopularMap({latitude,longitude}: Coordinates){
       lat: latitude,
       lng: longitude,
     },
-    zoom: 15,
+    zoom: 4,
     mapId: "NEARBY_TOILETS"
   };
 
-  const fetchLocalToilets = async () => {
+  const fetchToilets = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/toilets/")
       const localData = await response.json()
-      setData(JSON.stringify(localData))
+      setData(localData)
       console.log(`Fetched data is ${data}`)
     } catch(error) {
       console.error(`Geocoder failed due to: ${error}`)
@@ -46,21 +51,24 @@ export default function PopularMap({latitude,longitude}: Coordinates){
 
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
+        fetchToilets()
 
         loader
           .importLibrary('maps')
           .then(async ({Map}) => {
             const map = new Map(document.getElementById("map"), mapOptions)
             const {AdvancedMarkerElement} = await loader.importLibrary('marker')
-
-            new AdvancedMarkerElement({map, position: mapOptions.center})
            
             /*
             An example of an AdvancedMarkerElement placed at custom coordinates. 
-
-            new AdvancedMarkerElement({map, position: {lat:50.071900,lng:14.408242}})
             */
 
+            for(let i=0; i<data.length; i++){
+              new AdvancedMarkerElement({map, position: {lat: data[i].latitude, lng: data[i].longitude}})
+            }
+
+            //new AdvancedMarkerElement({map, position: {lat:46.057930,lng:14.510550}})
+            //new AdvancedMarkerElement({map, position: {lat:46.052820,lng:14.502650}})
           })
           .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
 
@@ -87,8 +95,7 @@ export default function PopularMap({latitude,longitude}: Coordinates){
 
     useEffect(() => {
       if(address && address.includes("Praha")) {
-        setCity("Prague")
-        fetchLocalToilets()
+          setCity("Prague")
       }
     }, [address])
     
