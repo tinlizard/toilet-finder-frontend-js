@@ -1,7 +1,16 @@
 "use client"
 import { useEffect } from 'react';
 import './map.css'
-import { Loader } from "@googlemaps/js-api-loader"
+import {Icon, Style} from 'ol/style.js';
+import {Vector as VectorSource} from 'ol/source.js';
+import {Vector as VectorLayer} from 'ol/layer.js';
+import {fromLonLat} from 'ol/proj.js';
+import Feature from 'ol/Feature.js';
+import Map from 'ol/Map.js';
+import Point from 'ol/geom/Point.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
 import { useState } from 'react';
 
 interface Coordinates {
@@ -15,28 +24,8 @@ interface Toilet {
 }
 
 export default function PopularMap({latitude,longitude}: Coordinates){
-  const [address, setAddress] = useState<string | null>(null);
-  const [city, setCity] = useState<string | null>(null);
   const [data,setData] = useState<Toilet[]>([{latitude: 46.057930, longitude: 14.502650}]);
 
-  const loader = new Loader({
-    apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
-    version: "weekly",
-    libraries: ["places"]
-  });
-
-  const secondLoader = new Loader(
-    loader.options
-  );
-  
-  const mapOptions = {
-    center: {
-      lat: latitude,
-      lng: longitude,
-    },
-    zoom: 4,
-    mapId: "NEARBY_TOILETS"
-  };
 
   const fetchToilets = async () => {
     try {
@@ -52,52 +41,45 @@ export default function PopularMap({latitude,longitude}: Coordinates){
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
         fetchToilets()
+        const osmLayer = new TileLayer({
+          preload: Infinity,
+          source: new OSM(),
+      })
 
-        loader
-          .importLibrary('maps')
-          .then(async ({Map}) => {
-            const map = new Map(document.getElementById("map"), mapOptions)
-            const {AdvancedMarkerElement} = await loader.importLibrary('marker')
-           
-            /*
-            An example of an AdvancedMarkerElement placed at custom coordinates. 
-            */
+        const userLocation = new Feature({
+          geometry: new Point(fromLonLat([longitude,latitude])),
+          type: 'icon',
+        })
 
-            for(let i=0; i<data.length; i++){
-              new AdvancedMarkerElement({map, position: {lat: data[i].latitude, lng: data[i].longitude}})
-            }
+        const iconStyle = new Style({
+            image: new Icon({
+              anchor: [0.5, 1],
+              width: 20,
+              height: 30,
+              src: './marker.png'
+            })
+        })
+    
+        userLocation.setStyle(iconStyle)
 
-            //new AdvancedMarkerElement({map, position: {lat:46.057930,lng:14.510550}})
-            //new AdvancedMarkerElement({map, position: {lat:46.052820,lng:14.502650}})
+        const vectorSource = new VectorSource({
+          features: [userLocation],
+        })
+
+        const vectorLayer = new VectorLayer({
+          source: vectorSource,
+        })
+
+        const map = new Map({
+          layers: [osmLayer,vectorLayer],
+          target: document.getElementById('map'),
+          view: new View({
+            center: fromLonLat([longitude,latitude]),
+            zoom: 4,
           })
-          .catch((error)=>console.log(`Error loading Google Maps Map: ${error}`))
-
-          secondLoader
-         .importLibrary('geocoding')
-         .then(async({Geocoder})=>{
-           const geocoder = new Geocoder()
-           
-           geocoder
-           .geocode({ location: { lat: latitude, lng: longitude } })
-           .then((response: any) => {
-             if (response.results && response.results.length > 0) {
-               setAddress(response.results[0].formatted_address);
-               console.log(`Address is: ${response.results[0].formatted_address}`);
-             } else {
-               console.error('No results found');
-             }
-           })
-           .catch((error: any) => {
-             console.error(`Geocoder failed due to: ${error}`);
-           });
-         })
+        })
+        return () => map.setTarget(null)
     }, [])
-
-    useEffect(() => {
-      if(address && address.includes("Praha")) {
-          setCity("Prague")
-      }
-    }, [address])
     
 
     return(
