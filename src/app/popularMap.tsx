@@ -19,28 +19,20 @@ interface Coordinates {
 }
 
 interface Toilet {
+  name: string,
+  address: string,
+  city: string,
+  country: string, 
+  reviews: number,
   latitude: number,
   longitude: number,
+  sexes: string,
 }
 
-export default function PopularMap({latitude,longitude}: Coordinates){
-  const [data,setData] = useState<Toilet[]>([{latitude: 46.057930, longitude: 14.502650}]);
-
-
-  const fetchToilets = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/toilets/")
-      const localData = await response.json()
-      setData(localData)
-      console.log(`Fetched data is ${data}`)
-    } catch(error) {
-      console.error(`Geocoder failed due to: ${error}`)
-    }
-  }
-
+export default function PopularMap({latitude,longitude,toilet}: Coordinates | Toilet){
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
-        fetchToilets()
+      
         const osmLayer = new TileLayer({
           preload: Infinity,
           source: new OSM(),
@@ -49,6 +41,10 @@ export default function PopularMap({latitude,longitude}: Coordinates){
         const userLocation = new Feature({
           geometry: new Point(fromLonLat([longitude,latitude])),
           type: 'icon',
+        })
+
+        const mcdonalds = new Feature({
+          geometry: new Point(fromLonLat([toilet[1].longitude,toilet[1].latitude]))
         })
 
         const iconStyle = new Style({
@@ -61,9 +57,10 @@ export default function PopularMap({latitude,longitude}: Coordinates){
         })
     
         userLocation.setStyle(iconStyle)
+        mcdonalds.setStyle(iconStyle)
 
         const vectorSource = new VectorSource({
-          features: [userLocation],
+          features: [userLocation, mcdonalds],
         })
 
         const vectorLayer = new VectorLayer({
@@ -80,11 +77,8 @@ export default function PopularMap({latitude,longitude}: Coordinates){
         })
         return () => map.setTarget(null)
     }, [])
-    
 
     return(
-       <div id="map">
-
-       </div>
+        <div id="map"/>
     )
 }
