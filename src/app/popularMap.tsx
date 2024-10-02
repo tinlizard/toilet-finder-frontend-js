@@ -30,6 +30,19 @@ interface Toilet {
 }
 
 export default function PopularMap({latitude,longitude,toilet}: Coordinates | Toilet){
+    const userLocation = new Feature({
+      geometry: new Point(fromLonLat([longitude,latitude])),
+      type: 'icon',
+    })
+
+    const [toiletsArr, setToiletsArr] = useState([
+      ...toilet.map((t) => new Feature({
+        geometry: new Point(fromLonLat([t.longitude, t.latitude])),
+      }))
+    ]);
+    
+
+
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
       
@@ -37,15 +50,6 @@ export default function PopularMap({latitude,longitude,toilet}: Coordinates | To
           preload: Infinity,
           source: new OSM(),
       })
-
-        const userLocation = new Feature({
-          geometry: new Point(fromLonLat([longitude,latitude])),
-          type: 'icon',
-        })
-
-        const mcdonalds = new Feature({
-          geometry: new Point(fromLonLat([toilet[1].longitude,toilet[1].latitude]))
-        })
 
         const iconStyle = new Style({
             image: new Icon({
@@ -57,10 +61,14 @@ export default function PopularMap({latitude,longitude,toilet}: Coordinates | To
         })
     
         userLocation.setStyle(iconStyle)
-        mcdonalds.setStyle(iconStyle)
+
+        for(let i=0; i<toiletsArr.length; i++){
+          toiletsArr[i].setStyle(iconStyle)
+          
+        }
 
         const vectorSource = new VectorSource({
-          features: [userLocation, mcdonalds],
+          features: [userLocation, ...toiletsArr],
         })
 
         const vectorLayer = new VectorLayer({
@@ -76,6 +84,7 @@ export default function PopularMap({latitude,longitude,toilet}: Coordinates | To
           })
         })
         return () => map.setTarget(null)
+      
     }, [])
 
     return(
