@@ -4,7 +4,6 @@ import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
 import { useState,useEffect,createContext} from "react";
 import Image from "next/image";
-import NearbyToilets from "./nearbyToilets";
 
 export const InputContext = createContext("Enter city/country name, or address...")
 

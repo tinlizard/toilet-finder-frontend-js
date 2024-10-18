@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SearchBar from "./searchbar";
-import { useState } from "react";
 import { AuthProvider } from "./AuthContext";
 import NavbarMenu from "./navbar-menu";
 

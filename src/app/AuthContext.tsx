@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState, createContext, useContext } from "react"
+import { useState, createContext, useContext } from "react"
 
 const AuthContext = createContext<boolean>(false)
 

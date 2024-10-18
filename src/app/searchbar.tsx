@@ -1,8 +1,7 @@
 "use client"
-import { useEffect, useState, createContext, useContext } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import SignInStatus from "./sign-in-status"
-import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie"
 
 interface Toilet {
