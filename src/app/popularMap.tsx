@@ -29,20 +29,19 @@ interface Toilet {
   sexes: string,
 }
 
-export default function PopularMap({latitude,longitude,toilet}: Coordinates | Toilet){
+export default function PopularMap({latitude,longitude,toilet,visible}: Coordinates | Toilet){
     const userLocation = new Feature({
       geometry: new Point(fromLonLat([longitude,latitude])),
       type: 'icon',
     })
 
+    //make sure all the toilets are represented as features
     const [toiletsArr, setToiletsArr] = useState([
       ...toilet.map((t) => new Feature({
         geometry: new Point(fromLonLat([t.longitude, t.latitude])),
       }))
     ]);
     
-
-
     useEffect(() => {
         console.log(`initial longitude is ${longitude}`)
       
@@ -64,7 +63,6 @@ export default function PopularMap({latitude,longitude,toilet}: Coordinates | To
 
         for(let i=0; i<toiletsArr.length; i++){
           toiletsArr[i].setStyle(iconStyle)
-          
         }
 
         const vectorSource = new VectorSource({
@@ -87,7 +85,16 @@ export default function PopularMap({latitude,longitude,toilet}: Coordinates | To
       
     }, [])
 
-    return(
-        <div id="map"/>
-    )
+    if(visible){
+      return(
+        <div>
+          <h1 style={{marginLeft: 220}}>Map of Worldwide Public Toilets</h1>
+          <div id="map"/>
+        </div>
+      )
+    } else {
+      return(
+        <div></div>
+      )
+    }
 }

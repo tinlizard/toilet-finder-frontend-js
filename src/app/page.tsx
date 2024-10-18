@@ -24,7 +24,8 @@ export default function Home() {
   const [longitude, setLongitude] = useState<number | null>(null)
   const [loading,setLoading] = useState<boolean>(true)
   const [input,setInput] = useState<string>("Enter city/country name, or address...")
-  const [results,setResults] = useState("Top-reviewed toilets in your area")
+  const [results,setResultsHeading] = useState<string>("") 
+  const [mapVisibility,setMapVisibility] = useState<boolean>(true)
   const [toilets,setToilets] = useState<Toilet[]>([{
     name: "McDonald's",
     address:"Čopova ulica 14, 1000",
@@ -71,14 +72,14 @@ export default function Home() {
 
   useEffect(() => {
       if(input!=="Enter city/country name, or address..."){
-        setResults(`Search results for ${input}`)
+        setResultsHeading(`Search results for ${input}`)
       }
   }, [input])
 
   if(loading){
     return (
       <div>
-          <SearchBar input={input} setInput={setInput}></SearchBar>
+          <SearchBar input={input} setInput={setInput} setMapVisibility={setMapVisibility}></SearchBar>
         <div className="home-h1">
           <h1>Loading top toilets in your area... please make sure you have allowed geolocation services.</h1>
         </div>
@@ -90,18 +91,10 @@ export default function Home() {
   } else {
     return(
       <div>
-          <SearchBar input={input} setInput={setInput}></SearchBar>
+          <SearchBar input={input} setInput={setInput} setMapVisibility={setMapVisibility}></SearchBar>
         <div className="map-container">
-          <PopularMap latitude={latitude} longitude={longitude} toilet={toilets}></PopularMap>
-      </div>
-      <div className="home-container">
-      <div className="home-h1">
-        <h1>{results}</h1>
-      </div>
-      <div className="home-main">
-        <NearbyToilets longitude={longitude} latitude={latitude}></NearbyToilets>
-      </div>
-      </div>
+          <PopularMap latitude={latitude} longitude={longitude} toilet={toilets} visible={mapVisibility}></PopularMap>
+        </div>
       </div>
     )
   }

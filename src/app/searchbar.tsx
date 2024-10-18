@@ -13,14 +13,16 @@ interface Toilet {
 
 interface InputProps {
   input: string,
-  setInput: (props: any) => void
+  setInput: (props: any) => void,
+  setMapVisibility: (props: any) => void,
 }
 
-export default function SearchBar({input,setInput}:InputProps){
+export default function SearchBar({input,setInput,setMapVisibility}:InputProps){
     const [data,setData] = useState<Toilet[]>([{address: "No data", country: 'No data', city: 'No data'}]) //default values for data
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
     async function fetchData(){
+      setMapVisibility(false)
       const response = await fetch("http://127.0.0.1:8000/toilets/")
       const dataStuff = await response.json()
       setData(dataStuff)
