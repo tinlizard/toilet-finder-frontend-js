@@ -2,12 +2,14 @@
 import "./home.css"
 import SearchBar from "./searchbar";
 import PopularMap from "./popularMap";
+import SearchResults from "./searchResult";
 import { useState,useEffect,createContext} from "react";
 import Image from "next/image";
 
 export const InputContext = createContext("Enter city/country name, or address...")
 
-interface Toilet {
+export interface Toilet {
+  id: number,
   name: string,
   address: string,
   city: string,
@@ -26,6 +28,7 @@ export default function Home() {
   const [results,setResultsHeading] = useState<string>("") 
   const [mapVisibility,setMapVisibility] = useState<boolean>(true)
   const [toilets,setToilets] = useState<Toilet[]>([{
+    id: 0,
     name: "McDonald's",
     address:"Čopova ulica 14, 1000",
     city:"Ljubljana",
@@ -93,6 +96,7 @@ export default function Home() {
           <SearchBar input={input} setInput={setInput} setMapVisibility={setMapVisibility}></SearchBar>
         <div className="map-container">
           <PopularMap latitude={latitude} longitude={longitude} toilet={toilets} visible={mapVisibility}></PopularMap>
+          <SearchResults visibility={!mapVisibility} resultsHeading={results} toilets={toilets}></SearchResults>
         </div>
       </div>
     )
