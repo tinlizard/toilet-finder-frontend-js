@@ -21,8 +21,8 @@ export interface Toilet {
 }
 
 export default function Home() {
-  const [latitude, setLatitude] = useState<number | null>(null)
-  const [longitude, setLongitude] = useState<number | null>(null)
+  const [latitude, setLatitude] = useState<number>(0)
+  const [longitude, setLongitude] = useState<number>(0)
   const [loading,setLoading] = useState<boolean>(true)
   const [input,setInput] = useState<string>("Enter city/country name, or address...")
   const [results,setResultsHeading] = useState<string>("") 

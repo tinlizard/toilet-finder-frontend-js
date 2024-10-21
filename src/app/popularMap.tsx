@@ -12,24 +12,16 @@ import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import { useState } from 'react';
+import { Toilet } from './page';
 
-interface Coordinates {
-  latitude: number | null;
-  longitude: number | null;
+interface MapsInterface {
+  latitude: number;
+  longitude: number;
+  toilet: Toilet[];
+  visible: boolean,
 }
 
-interface Toilet {
-  name: string,
-  address: string,
-  city: string,
-  country: string, 
-  reviews: number,
-  latitude: number,
-  longitude: number,
-  sexes: string,
-}
-
-export default function PopularMap({latitude,longitude,toilet,visible}: Coordinates | Toilet){
+export default function PopularMap({latitude,longitude,toilet,visible}: MapsInterface){
     const userLocation = new Feature({
       geometry: new Point(fromLonLat([longitude,latitude])),
       type: 'icon',
