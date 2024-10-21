@@ -30,18 +30,7 @@ export default function Login(){
                 console.log('failed to login')
             }
         }
-
-        console.log(username)
-        console.log(password)
-        console.log(loggedIn)
     }
-
-    //debugging
-    useEffect(() => {
-       console.log(`username is: ${username}`)
-       console.log(`password is: ${password}`)
-    }, [username,password])
-    
 
     return(
         <div className="login">
