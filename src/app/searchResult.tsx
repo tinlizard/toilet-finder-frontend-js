@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import maleIcon from './male.png'
 import maleAndFemaleIcon from './maleandfemale.png'
 import femaleIcon from './female.png'
+import SearchResultsMap from "./searchResultsMap"
 
 interface SearchResults {
     visibility: boolean,
@@ -15,6 +16,7 @@ interface SearchResults {
 
 export default function SearchResults({visibility,resultsHeading,toilets}: SearchResults){
     const [imageUrl, setImageUrl] = useState<StaticImageData[]>([maleAndFemaleIcon])
+    const [searchMapVisible, setSearchMapVisible] = useState<boolean>(false)
 
     const changeSexesIcon = () => {
         toilets.forEach((toilet)=>{
@@ -35,9 +37,17 @@ export default function SearchResults({visibility,resultsHeading,toilets}: Searc
     const toiletsAddressesList = toilets.map((toilet,index) => <li key={toilet.id}>
         <b>{toilet.name} - {toilet.address}, {toilet.city}</b>
         <br></br>
-        <Image src={imageUrl[index]} alt="sex icon (male/female, male only, female only)" width={11} height={15}/>{toilet.sexes}
+        <Image src={imageUrl[index]} alt="sex icon (male/female, male only, female only)" width={30} height={20}/>{toilet.sexes}
         <br></br>
         <Image src="/marker.png" alt="location  marker" width={11} height={15}/>  {toilet.longitude}, {toilet.latitude}
+        <br></br>
+        <button onClick={()=>{setSearchMapVisible(!searchMapVisible); console.log(`visibility of map is ${searchMapVisible}`)}}>Click to show map</button>
+        <br></br>
+        <SearchResultsMap visibility={searchMapVisible} latitude={toilet.latitude} longitude={toilet.longitude}></SearchResultsMap>
+    </li>)
+
+    const toiletMaps = toilets.map((toilet)=><li key={toilet.id}>
+        <SearchResultsMap visibility={searchMapVisible} latitude={toilet.latitude} longitude={toilet.longitude}></SearchResultsMap>
     </li>)
 
     if(visibility){
@@ -46,9 +56,11 @@ export default function SearchResults({visibility,resultsHeading,toilets}: Searc
                 <h1>
                     {resultsHeading}
                 </h1>
-                <ul>
-                    {toiletsAddressesList}
-                </ul>
+                    <ul>
+                        <div className="list-wrapper">
+                            <div>{toiletsAddressesList}</div>
+                        </div>
+                    </ul>
             </div>
         )
     } else {

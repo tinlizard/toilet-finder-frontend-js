@@ -67,13 +67,12 @@ export default function PopularMap({latitude,longitude,toilet,visible}: MapsInte
 
         const map = new Map({
           layers: [osmLayer,vectorLayer],
-          target: document.getElementById('map'),
           view: new View({
             center: fromLonLat([longitude,latitude]),
             zoom: 4,
           })
         })
-        return () => map.setTarget(null)
+        return () => map.setTarget('map')
       
     }, [])
 
