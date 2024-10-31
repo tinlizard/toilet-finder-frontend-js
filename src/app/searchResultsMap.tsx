@@ -15,10 +15,9 @@ import './searchResultsMap.css'
 interface SearchResultsMapInterface {
     longitude: number,
     latitude: number,
-    visibility: boolean
 }
 
-export default function SearchResultsMap({longitude, latitude, visibility}: SearchResultsMapInterface){
+export default function SearchResultsMap({longitude, latitude}: SearchResultsMapInterface){
     const toiletLocation = new Feature({
         geometry: new Point(fromLonLat([longitude,latitude])),
         type: 'icon',
@@ -59,15 +58,9 @@ export default function SearchResultsMap({longitude, latitude, visibility}: Sear
           return () => map.setTarget('search-map')
     },[])
 
-    if(visibility){
         return(
             <div className="search-results-map">
                 <div id="search-map"/>
             </div>
         )
-    } else {
-        return(
-            <div></div>
-        )
-    }
 }

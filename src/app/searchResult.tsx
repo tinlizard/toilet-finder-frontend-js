@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import maleIcon from './male.png'
 import maleAndFemaleIcon from './maleandfemale.png'
 import femaleIcon from './female.png'
-import SearchResultsMap from "./searchResultsMap"
+import { useRouter } from "next/navigation"
 
 interface SearchResults {
     visibility: boolean,
@@ -16,7 +16,7 @@ interface SearchResults {
 
 export default function SearchResults({visibility,resultsHeading,toilets}: SearchResults){
     const [imageUrl, setImageUrl] = useState<StaticImageData[]>([maleAndFemaleIcon])
-    const [searchMapVisible, setSearchMapVisible] = useState<boolean>(false)
+    const router = useRouter()
 
     const changeSexesIcon = () => {
         toilets.forEach((toilet)=>{
@@ -39,15 +39,10 @@ export default function SearchResults({visibility,resultsHeading,toilets}: Searc
         <br></br>
         <Image src={imageUrl[index]} alt="sex icon (male/female, male only, female only)" width={30} height={20}/>{toilet.sexes}
         <br></br>
-        <Image src="/marker.png" alt="location  marker" width={11} height={15}/>  {toilet.longitude}, {toilet.latitude}
+        <Image src="/marker.png" alt="location  marker" width={11} height={15}/>{toilet.longitude}, {toilet.latitude}
         <br></br>
-        <button onClick={()=>{setSearchMapVisible(!searchMapVisible); console.log(`visibility of map is ${searchMapVisible}`)}}>Click to show map</button>
+        <button onClick={()=>router.push(`/toilets-map-search-result?long=${toilet.longitude}&lat=${toilet.latitude}`)}>Show map</button>
         <br></br>
-        <SearchResultsMap visibility={searchMapVisible} latitude={toilet.latitude} longitude={toilet.longitude}></SearchResultsMap>
-    </li>)
-
-    const toiletMaps = toilets.map((toilet)=><li key={toilet.id}>
-        <SearchResultsMap visibility={searchMapVisible} latitude={toilet.latitude} longitude={toilet.longitude}></SearchResultsMap>
     </li>)
 
     if(visibility){
