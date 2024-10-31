@@ -9,6 +9,7 @@ export default function Login(){
 
     const [username,setUsername] = useState<string>("")
     const [password,setPassword] = useState<string>("")
+    const [loggedInText,setLoggedInText] = useState<string>("")
 
     async function getAuth() {
         const response = await fetch("http://127.0.0.1:8000/users/")
@@ -25,8 +26,10 @@ export default function Login(){
                 Cookies.set('password',password, {expires: 7})
 
                 console.log(Cookies.get('loggedIn'))
+                location.reload()
             }
             else {
+                setLoggedInText("Login error. Check username and password combination.")
                 console.log('failed to login')
             }
         }
@@ -47,6 +50,7 @@ export default function Login(){
             <br></br>
             <br></br>
             <button onClick={()=>getAuth()}>Login</button>
+            <h5>{loggedInText}</h5>
             <h6>Dont have an account yet? <a href="/register">Click here to register.</a></h6>
         </div>
     )

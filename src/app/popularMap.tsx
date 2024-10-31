@@ -35,8 +35,6 @@ export default function PopularMap({latitude,longitude,toilet,visible}: MapsInte
     ]);
     
     useEffect(() => {
-        console.log(`initial longitude is ${longitude}`)
-      
         const osmLayer = new TileLayer({
           preload: Infinity,
           source: new OSM(),

@@ -43,10 +43,8 @@ export default function Home() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitude(position.coords.latitude);
-        console.log(`got latitude: ${position.coords.latitude}, typeof latitude: ${typeof(position.coords.latitude)}`)
         setLongitude(position.coords.longitude);
 
-        console.log(`got longitude: ${longitude}`)
         setLoading(false)
       }, 
       (error)=> console.log(`Error receiving geolocation data: ${error}`), 
@@ -61,7 +59,6 @@ export default function Home() {
       const response = await fetch("http://127.0.0.1:8000/toilets/")
       const localData = await response.json()
       setToilets(localData)
-      console.log(`Fetched data is ${toilets}`)
     } catch(error) {
       console.error(`Geocoder failed due to: ${error}`)
     }

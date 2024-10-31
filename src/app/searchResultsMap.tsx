@@ -52,7 +52,7 @@ export default function SearchResultsMap({longitude, latitude}: SearchResultsMap
             layers: [osmLayer,vectorLayer],
             view: new View({
               center: fromLonLat([longitude,latitude]),
-              zoom: 15,
+              zoom: 18,
             })
           })
           return () => map.setTarget('search-map')
